@@ -35,60 +35,22 @@
     </a>
 </div>
 
-<!-- Selectores -->
-<div class="container mt-5">
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-    {
-        <div class="row">
-            <div class="col-md-2">
-                <select class="form-select" name="peliculaId" id="peliculaId" onchange="this.form.submit()">
-                    <option value="">Seleccionar película</option>
-                    @foreach (var pelicula in Model.Peliculas)
-                    {
-                        <option value="@pelicula.Id">@pelicula.Titulo</option>
-                    }
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select class="form-select" name="sala" id="sala">
-                    <option value="">Seleccionar sala</option>
-                    @if (Model.Salas != null)
-                    {
-                        @foreach (var sala in Model.Salas)
-                        {
-                            <option value="@sala.NroSala">@sala.NroSala</option>
-                        }
-                    }
-                </select>
-            </div>
-
-        </div>
-    }
-
-
-
-
-
-        <div class="col-md-2">
-            <input type="date" class="form-control" name="fecha" id="fecha">
-        </div>
-        <div class="col-md-2">
-            <input type="time" class="form-control" name="hora" id="hora">
-        </div>
-        <div class="col-md-2">
-            <input type="number" class="form-control" name="cantidad" id="cantidad" min="1" max="10">
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary">Comprar boletos</button>
-        </div>
-    </div>
-</div>
-
 <!-- Grupo de Cards -->
-@if (((IEnumerable<Pr3Obligatorio_AAN2023.Models.Pelicula>)Model.Peliculas).Count() > 0)
+@if (Model != null && Model.Funciones.Count > 0)
 {
+    Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+
     <div class="row mt-5">
-        @foreach (var pelicula in (IEnumerable<Pr3Obligatorio_AAN2023.Models.Pelicula>)Model.Peliculas)
+        @foreach (var funcion in Model.Funciones)
+        {
+            if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
+            {
+                funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
+            }
+            funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
+        }
+
+        @foreach (var titulo in funcionesPorTitulo.Keys)
         {
             <div class="col-md-4">
                 <div class="card">
@@ -96,12 +58,19 @@
                         <img src="https://i.blogs.es/f9a58d/aquaman-poster-comic-con-2018/450_1000.jpg" class="card-img-top" alt="Card 3">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@pelicula.Titulo</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/Peliculas/Details/@pelicula.Id" class="btn btn-primary">Read More</a>
+                        <h5 class="card-title">@titulo</h5>
+                        <select class="form-select" name="funciones" id="funciones">
+                            <option value="">Seleccionar función</option>
+                            @foreach (var funcion in funcionesPorTitulo[titulo])
+                            {
+                                <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
+                            }
+                        </select>
+                        <a class="btn btn-primary" href="/Reservas/Create?funcionId=@funcionesPorTitulo[titulo][0].Id">Reservar</a>
                     </div>
                 </div>
             </div>
         }
     </div>
 }
+

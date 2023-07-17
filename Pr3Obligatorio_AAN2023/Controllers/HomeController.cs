@@ -19,12 +19,10 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 
         public IActionResult Index()
         {
-            var peliculas = _context.Peliculas.ToList();
-            var funciones = _context.Funciones.Include(f => f.Sala).ToList();
+            var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
 
             var viewModel = new HomeViewModel
             {
-                Peliculas = peliculas,
                 Funciones = funciones
             };
 
