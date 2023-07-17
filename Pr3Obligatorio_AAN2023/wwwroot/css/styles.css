@@ -10947,11 +10947,11 @@ header.masthead {
   padding-bottom: 6rem;
   text-align: center;
   color: #fff;
-  background-image: url("/assets/img/fondoCine.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
+  background-image: src(../assets/img/fondoCine.jpg)
 }
 header.masthead .masthead-subheading {
   font-size: 1.5rem;
@@ -10968,7 +10968,7 @@ header.masthead .masthead-heading {
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-@media (min-width: 768px) {
+@media (min-width: cover) {
   header.masthead {
     padding-top: 17rem;
     padding-bottom: 12.5rem;
