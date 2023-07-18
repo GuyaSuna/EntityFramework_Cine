@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Caching.Memory;
+@functions {
+    public bool UserLoggedIn()
+    {
+        var usuario = Context.RequestServices.GetService<IMemoryCache>().Get<Usuario>("Usuario");
+        return usuario != null;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,14 +29,21 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars ms-1"></i>
-            </button>
+            </button>           
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    @if (!UserLoggedIn())
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Inicio" asp-action="Inicio">Login</a>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registrate!!</a></li>
+                        </li>
+                    }
+                    @if (UserLoggedIn()){
                     <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Reservas" asp-action="Index">Reservas</a></li>
+
                     <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Usuarips" asp-action="Index">Usuarios</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Inicio" asp-action="Login">Login</a></li>
+                    }
                 </ul>
             </div>
         </div>
