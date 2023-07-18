@@ -49,49 +49,44 @@
             <h3 class="section-subheading text-muted">Aquí puedes encontrar las últimas tendencias</h3>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
-                @if (Model != null && Model.Count > 0)
+            @if (Model != null && Model.Count > 0)
+            {
+                Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+                foreach (var funcion in Model)
                 {
-                    Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+                    if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
+                    {
+                        funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
+                    }
+                    funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
+                }
 
-                    <div class="row mt-5">
-                        @foreach (var funcion in Model)
-                        {
-                            if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
-                            {
-                                funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
-                            }
-                            funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
-                        }
-
-                        @foreach (var titulo in funcionesPorTitulo.Keys)
-                        {
-                            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                              <div class="portfolio-item">
-                                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                                        <div class="portfolio-hover">
-                                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                        </div>
-                                        <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
-                                    </a>
-                                    <div class="portfolio-caption">
-                                                    <select class="form-select" name="funciones" id="funciones">
-                                                        <option value="">Seleccionar función</option>
-                                                        @foreach (var funcion in funcionesPorTitulo[titulo])
-                                                        {
-                                                            <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
-                                                        }
-                                                    </select>
-                                        <div class="portfolio-caption-heading">Flash</div>
-                                        <div class="portfolio-caption-subheading text-muted">Identity</div>
-                                    </div>
-                                </div>     
-                             </div>
-                        }
+                foreach (var titulo in funcionesPorTitulo.Keys)
+                {
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <select class="form-select" name="funciones" id="funciones">
+                                    <option value="">Seleccionar función</option>
+                                    @foreach (var funcion in funcionesPorTitulo[titulo])
+                                    {
+                                        <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
+                                    }
+                                </select>
+                                <div class="portfolio-caption-heading">@titulo</div>
+                                <div class="portfolio-caption-subheading text-muted">Identity</div>
+                            </div>
+                        </div>
                     </div>
                 }
-            </div>
+            }
         </div>
     </div>
 </section>
+
