@@ -12,7 +12,7 @@ using Pr3Obligatorio_AAN2023.Datos;
 namespace Pr3Obligatorio_AAN2023.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230716194253_TablaReservasDb")]
+    [Migration("20230718030156_TablaReservasDb")]
     partial class TablaReservasDb
     {
         /// <inheritdoc />

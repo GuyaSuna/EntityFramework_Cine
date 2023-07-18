@@ -12,16 +12,30 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Usuario.Nombre" class="control-label">Usuario</label>
+                <select asp-for="Usuario.Nombre" class="form-control">
+                    @foreach (var usuario in ViewBag.Usuarios)
+                    {
+                        <option value="@usuario.Value">@usuario.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Usuario.Nombre" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Asiento" class="control-label"></label>
                 <input asp-for="Asiento" class="form-control" />
                 <span asp-validation-for="Asiento" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Precio" class="control-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -34,5 +48,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

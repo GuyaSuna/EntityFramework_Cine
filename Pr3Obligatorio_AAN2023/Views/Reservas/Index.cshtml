@@ -18,7 +18,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Precio)
             </th>
-            <th></th>
+            <th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Usuario.Nombre) <!-- Agregar el nombre de la propiedad del usuario -->
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Funcion.Pelicula) <!-- Agregar el nombre de la propiedad de la función -->
+            </th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +37,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.Nombre) <!-- Mostrar el nombre del usuario -->
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funcion.Pelicula) <!-- Mostrar el nombre de la función -->
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
