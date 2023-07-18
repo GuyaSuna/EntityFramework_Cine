@@ -54,7 +54,13 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            var usuarios = _context.Usuarios.Select(u => new SelectListItem
+            {
+                Value = $"{u.Nombre} {u.Apellido}",
+                Text = $"{u.Nombre} {u.Apellido}"
+            }).ToList();
+
+            ViewBag.Usuarios = usuarios;
 
             return View();
         }
@@ -62,18 +68,18 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // POST: Reservas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Asiento,Precio,UsuarioNombre,FuncionPelicula")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,Asiento,Precio,UsuarioId,FuncionId")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                reserva.Usuario = await _context.Usuarios.FindAsync(reserva.Usuario.Nombre);
+                reserva.Usuario = await _context.Usuarios.FindAsync(reserva.Usuario.Id);
 
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "NombreApellido");
 
             return View(reserva);
         }
@@ -92,7 +98,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 return NotFound();
             }
 
-            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "NombreApellido");
             ViewBag.Funciones = new SelectList(_context.Funciones, "Id", "Pelicula");
 
             return View(reserva);
@@ -110,15 +116,15 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 
             if (ModelState.IsValid)
             {
-                reserva.Usuario = await _context.Usuarios.FindAsync(reserva.Usuario.Nombre);
-                reserva.Funcion = await _context.Funciones.FindAsync(reserva.Funcion.Pelicula);
+                reserva.Usuario = await _context.Usuarios.FindAsync(reserva.Usuario.Id);
+                reserva.Funcion = await _context.Funciones.FindAsync(reserva.Funcion.Id);
 
                 _context.Update(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.Usuarios = new SelectList(_context.Usuarios, "Id", "NombreApellido");
             ViewBag.Funciones = new SelectList(_context.Funciones, "Id", "Nombre");
 
             return View(reserva);
