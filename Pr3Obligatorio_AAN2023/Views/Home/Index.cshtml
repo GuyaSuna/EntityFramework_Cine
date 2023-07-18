@@ -1,4 +1,4 @@
-﻿@model Funcion
+﻿@model List<Funcion>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -46,98 +46,48 @@
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Peliculas</h2>
-            <h3 class="section-subheading text-muted">Aqui puedes encontrar las ultimas tendencias</h3>
+            <h3 class="section-subheading text-muted">Aquí puedes encontrar las últimas tendencias</h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4">
                 <!-- Portfolio item 1-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/peliculas/gatoconbotas.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">El Gato con Botas</div>
-                        <div class="portfolio-caption-subheading text-muted">Illustration</div>
+                @if (Model != null && Model.Count > 0)
+                {
+                    Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+
+                    <div class="row mt-5">
+                        @foreach (var funcion in Model)
+                        {
+                            if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
+                            {
+                                funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
+                            }
+                            funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
+                        }
+
+                        @foreach (var titulo in funcionesPorTitulo.Keys)
+                        {
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-img-container">
+                                        <img src="https://i.blogs.es/f9a58d/aquaman-poster-comic-con-2018/450_1000.jpg" class="card-img-top" alt="Card 3">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@titulo</h5>
+                                        <select class="form-select" name="funciones" id="funciones">
+                                            <option value="">Seleccionar función</option>
+                                            @foreach (var funcion in funcionesPorTitulo[titulo])
+                                            {
+                                                <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
+                                            }
+                                        </select>
+                                        <a class="btn btn-primary" href="/Reservas/Create?funcionId=@funcionesPorTitulo[titulo][0].Id">Reservar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 2-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/barbi2.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Barbie</div>
-                        <div class="portfolio-caption-subheading text-muted">Graphic Design</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 3-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Flash</div>
-                        <div class="portfolio-caption-subheading text-muted">Identity</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                <!-- Portfolio item 4-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/IndianaJones.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Indiana Jones</div>
-                        <div class="portfolio-caption-subheading text-muted">Branding</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                <!-- Portfolio item 5-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/MarioBross.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Mario Bross</div>
-                        <div class="portfolio-caption-subheading text-muted">Website Design</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <!-- Portfolio item 6-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/Transformer.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Transformer</div>
-                        <div class="portfolio-caption-subheading text-muted">Photography</div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

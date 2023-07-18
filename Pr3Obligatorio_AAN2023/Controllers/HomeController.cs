@@ -21,13 +21,9 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         {
             var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
 
-            var viewModel = new 
-            {
-                Funciones = funciones
-            };
-
-            return View(viewModel);
+            return View(funciones);
         }
+
 
         [HttpPost]
         public IActionResult Index(int peliculaId)
