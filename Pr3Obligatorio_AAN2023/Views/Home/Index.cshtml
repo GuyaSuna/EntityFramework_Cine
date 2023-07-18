@@ -67,24 +67,25 @@
 
                         @foreach (var titulo in funcionesPorTitulo.Keys)
                         {
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-img-container">
-                                        <img src="https://i.blogs.es/f9a58d/aquaman-poster-comic-con-2018/450_1000.jpg" class="card-img-top" alt="Card 3">
+                              <div class="portfolio-item">
+                                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                                        <div class="portfolio-hover">
+                                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                        </div>
+                                        <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
+                                    </a>
+                                    <div class="portfolio-caption">
+                                                    <select class="form-select" name="funciones" id="funciones">
+                                                        <option value="">Seleccionar función</option>
+                                                        @foreach (var funcion in funcionesPorTitulo[titulo])
+                                                        {
+                                                            <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
+                                                        }
+                                                    </select>
+                                        <div class="portfolio-caption-heading">Flash</div>
+                                        <div class="portfolio-caption-subheading text-muted">Identity</div>
                                     </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">@titulo</h5>
-                                        <select class="form-select" name="funciones" id="funciones">
-                                            <option value="">Seleccionar función</option>
-                                            @foreach (var funcion in funcionesPorTitulo[titulo])
-                                            {
-                                                <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
-                                            }
-                                        </select>
-                                        <a class="btn btn-primary" href="/Reservas/Create?funcionId=@funcionesPorTitulo[titulo][0].Id">Reservar</a>
-                                    </div>
-                                </div>
-                            </div>
+                                </div>                           
                         }
                     </div>
                 }
