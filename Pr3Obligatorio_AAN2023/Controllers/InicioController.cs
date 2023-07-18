@@ -6,7 +6,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 {
     public class InicioController : Controller
     {
-        public IActionResult Login()
+        public ActionResult Login()
         {
             return View();
         }
