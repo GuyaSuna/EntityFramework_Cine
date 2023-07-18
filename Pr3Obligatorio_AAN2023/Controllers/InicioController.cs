@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 
@@ -6,15 +7,18 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 {
     public class InicioController : Controller
     {
-        public ActionResult Login()
-        {
-            return View();
-        }
+       
         private readonly ApplicationDbContext _context;
-
-        public InicioController(ApplicationDbContext context)
+        private readonly IMemoryCache _cache;
+ 
+        public InicioController(ApplicationDbContext context , IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;  
+        }
+        public ActionResult Inicio()
+        {
+            return View();
         }
         [HttpPost]
         public ActionResult Login(Usuario u)
@@ -30,7 +34,8 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index","Home");
+                        _cache.Set("Usuario", u);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 else
