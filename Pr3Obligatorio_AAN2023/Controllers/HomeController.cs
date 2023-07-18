@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 using System.Diagnostics;
@@ -10,11 +11,12 @@ namespace Pr3Obligatorio_AAN2023.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-
+        
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
+            
         }
 
         public IActionResult Index()

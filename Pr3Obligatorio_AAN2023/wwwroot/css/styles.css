@@ -10827,6 +10827,7 @@ textarea.form-control-lg {
 }
 html {
   scroll-padding-top: 4.5rem;
+  height: max-content;
 }
 
 body {

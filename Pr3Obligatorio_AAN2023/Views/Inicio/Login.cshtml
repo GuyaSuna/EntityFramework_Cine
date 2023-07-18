@@ -1,4 +1,5 @@
 ﻿@model Usuario
+<link href="~/css/styles.css" rel="stylesheet" />
 
 @{
     var mensajeError = TempData["MensajeError"] as string;
@@ -10,9 +11,8 @@
         @mensajeError
     </div>
 }
-@{
-    Layout = "~/Views/Shared/InicioLayout.cshtml";
-}
+
+
 <form method="post" asp-action="Login" asp-controller="Inicio">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
