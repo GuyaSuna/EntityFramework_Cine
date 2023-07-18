@@ -22,7 +22,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             if (u != null)
             {
                 var Usuario = _context.Usuarios.FirstOrDefault(obj => obj.Email == u.Email);
-                if (Usuario == null)
+                if (Usuario != null)
                 {
                     if (u.Constraseña != Usuario.Constraseña)
                     {
@@ -30,7 +30,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Categoria");
+                        return RedirectToAction("Index","Home");
                     }
                 }
                 else

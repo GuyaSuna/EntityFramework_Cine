@@ -1,4 +1,4 @@
-﻿@model Pelicula
+﻿@model List<Funcion>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -46,7 +46,7 @@
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Peliculas</h2>
-            <h3 class="section-subheading text-muted">Aqui puedes encontrar las ultimas tendencias</h3>
+            <h3 class="section-subheading text-muted">Aquí puedes encontrar las últimas tendencias</h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4">
@@ -133,6 +133,42 @@
                     </div>
                 </div>
             </div>
+            @if (Model != null && Model.Count > 0)
+            {
+                Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+                foreach (var funcion in Model)
+                {
+                    if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
+                    {
+                        funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
+                    }
+                    funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
+                }
+
+                foreach (var titulo in funcionesPorTitulo.Keys)
+                {
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="@funcionesPorTitulo[titulo][0].Pelicula.Cartelera" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <select class="form-select" name="funciones" id="funciones">
+                                    <option value="">Seleccionar función</option>
+                                    @foreach (var funcion in funcionesPorTitulo[titulo])
+                                    {
+                                        <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
+                                    }
+                                </select>
+                                <div class="portfolio-caption-heading">@titulo</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </section>
@@ -361,3 +397,5 @@
         </div>
     </div>
 </div>
+</section>
+
