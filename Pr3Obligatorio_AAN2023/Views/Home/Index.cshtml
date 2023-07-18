@@ -69,14 +69,14 @@
                                 <div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
+                                <img class="img-fluid" src="@funcionesPorTitulo[titulo][0].Pelicula.Cartelera" alt="..." />
                             </a>
                             <div class="portfolio-caption">
                                 <select class="form-select" name="funciones" id="funciones">
                                     <option value="">Seleccionar función</option>
                                     @foreach (var funcion in funcionesPorTitulo[titulo])
                                     {
-                                        <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario</option>
+                                        <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
                                     }
                                 </select>
                                 <div class="portfolio-caption-heading">@titulo</div>
