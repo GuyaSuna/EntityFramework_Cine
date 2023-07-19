@@ -80,6 +80,9 @@
                                     }
                                 </select>
                                 <div class="portfolio-caption-heading">@titulo</div>
+                                <div class="portfolio-caption-buttons">
+                                    <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,4 +91,11 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
 

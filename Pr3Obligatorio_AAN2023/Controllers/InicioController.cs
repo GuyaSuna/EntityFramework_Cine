@@ -34,7 +34,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                     }
                     else
                     {
-                        _cache.Set("Usuario", u);
+                        _cache.Set("Usuario", Usuario);
                         return RedirectToAction("Index", "Home");
                     }
                 }

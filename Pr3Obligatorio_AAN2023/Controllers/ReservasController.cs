@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+   
+
 
 namespace Pr3Obligatorio_AAN2023.Controllers
 {
@@ -15,17 +16,19 @@ namespace Pr3Obligatorio_AAN2023.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
-        public ReservasController(ApplicationDbContext context)
+           
+        public ReservasController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-              return _context.Reservas != null ? 
-                          View(await _context.Reservas.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Reservas'  is null.");
+            return _context.Reservas != null ?
+                View(await _context.Reservas.ToListAsync()) :
+                Problem("Entity set 'ApplicationDbContext.Reservas' is null.");
         }
 
         // GET: Reservas/Details/5
@@ -47,27 +50,44 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create()
+        public IActionResult Create(int funcionId)
         {
-            return View();
+            TempData["FuncionSeleccionada"] = funcionId;
+            var Usuario = _cache.Get("Usuario") as Usuario; // Asegúrate de que Usuario sea el tipo correcto
+
+            if (Usuario != null)
+            {
+                ViewData["Usuario"] = Usuario.Id;
+                return View();
+            }
+            else
+            {
+                return NotFound(); // Otra acción en caso de que el usuario no exista en la memoria caché
+            }
         }
 
+
         // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Asiento,Precio")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,IdFunc,IdUser,Asiento,Precio")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (TempData.ContainsKey("FuncionSeleccionada") && int.TryParse(TempData["FuncionSeleccionada"].ToString(), out int funcionId))
+                {
+                    reserva.Funcion.Id = funcionId;
+                    _context.Add(reserva);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             return View(reserva);
         }
-
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
