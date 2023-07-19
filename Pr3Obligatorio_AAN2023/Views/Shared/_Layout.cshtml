@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Caching.Memory;
+@functions {
+    public bool UserLoggedIn()
+    {
+        var usuario = Context.RequestServices.GetService<IMemoryCache>().Get<Usuario>("Usuario");
+        return usuario != null;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,10 +32,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Inicio" asp-action="Login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registro</a></li>
+                    @if (!UserLoggedIn())
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Inicio" asp-action="Login">Login</a>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registrate!!</a></li>
+                        </li>
+                    }
+                    @if (UserLoggedIn())
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
+                    }
                 </ul>
             </div>
         </div>
@@ -39,31 +56,15 @@
             <a class="btn btn-secondary btn-xl text-uppercase" asp-controller="Reservas" asp-action="Index">Reserva tu funcion</a>
         </div>
     </header>
-    <div class="container mb-5">
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-   
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-@*<footer class="footer py-4  ">
-    <div class="container m-">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2023</div>
-            <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <div class="col-lg-4 text-lg-end">
-                <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
-                <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
-            </div>
-        </div>
-    </div>
-</footer>*@
 </html>

@@ -7,25 +7,22 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 {
     public class InicioController : Controller
     {
-        private readonly IMemoryCache _memoryCache;
-        public ActionResult Login()
-        {
-            return View();
-        }
-        public ActionResult InicioLayout()
-        {
-            return View(InicioLayout);
-        }
+
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
 
         public InicioController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
-            _memoryCache = cache;
+            _cache = cache;
+        }
+        public ActionResult Login()
+        {
+            return View();
         }
         [HttpPost]
         public ActionResult Login(Usuario u)
-        {   
+        {
             if (u != null)
             {
                 var Usuario = _context.Usuarios.FirstOrDefault(obj => obj.Email == u.Email);
@@ -33,12 +30,12 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 {
                     if (u.Constraseña != Usuario.Constraseña)
                     {
-                        TempData["mensajeError"] = "La contrseña es incorrecta!";
+                        TempData["mensajeError"] = "La contrse単a es incorrecta!";
                     }
                     else
                     {
-                        _memoryCache.Set("Usuario", u);
-                        return RedirectToAction("InicioLayout","Inicio");                     
+                        _cache.Set("Usuario", u);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 else
@@ -48,7 +45,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             }
             else
             {
-                TempData["mensajeError"] = "Ingrese correo y contraseña";
+                TempData["mensajeError"] = "Ingrese correo y contrase単a";
             }
 
             return View();
