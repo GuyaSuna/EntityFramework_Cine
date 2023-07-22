@@ -26,9 +26,13 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return _context.Reservas != null ?
-                View(await _context.Reservas.ToListAsync()) :
-                Problem("Entity set 'ApplicationDbContext.Reservas' is null.");
+            var reservas = await _context.Reservas
+                .Include(r => r.Usuario)
+                .Include(r => r.Funcion) // Cargar la propiedad de navegación Funcion
+                .ThenInclude(f => f.Pelicula) // Cargar la propiedad de navegación Pelicula dentro de Funcion
+                .ToListAsync();
+
+            return View(reservas);
         }
 
         // GET: Reservas/Details/5
@@ -52,12 +56,12 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Reservas/Create
         public IActionResult Create(int funcionId)
         {
-            TempData["FuncionSeleccionada"] = funcionId;
             var Usuario = _cache.Get("Usuario") as Usuario; // Asegúrate de que Usuario sea el tipo correcto
 
             if (Usuario != null)
             {
                 ViewData["Usuario"] = Usuario.Id;
+                ViewData["Funcion"] = funcionId;
                 return View();
             }
             else
@@ -70,24 +74,40 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // POST: Reservas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdFunc,IdUser,Asiento,Precio")] Reserva reserva)
+        public async Task<IActionResult> Create(Reserva reserva)
         {
+            // Obtener el valor de Funcion y Usuario desde el formulario
+            int funcionId = int.Parse(Request.Form["Funcion"]);
+            int usuarioId = int.Parse(Request.Form["Usuario"]);
+
+            // Buscar la Funcion y el Usuario en la base de datos por su Id
+            var funcion = await _context.Funciones.FindAsync(funcionId);
+            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+
+            if (funcion == null || usuario == null)
+            {
+                // Si no se encontró la función o el usuario con el Id proporcionado,
+                // muestra un mensaje de error o redirige a otra página
+                return RedirectToAction("Index", "Funciones");
+            }
+
+            // Asignar los objetos Funcion y Usuario a la reserva
+            reserva.Funcion = funcion;
+            reserva.Usuario = usuario;
+
             if (ModelState.IsValid)
             {
-                if (TempData.ContainsKey("FuncionSeleccionada") && int.TryParse(TempData["FuncionSeleccionada"].ToString(), out int funcionId))
-                {
-                    reserva.Funcion.Id = funcionId;
-                    _context.Add(reserva);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return NotFound();
-                }
+                // Agregar la reserva a la base de datos
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+
+            // Si el modelo no es válido, volvemos a mostrar el formulario con los errores
             return View(reserva);
         }
+
+
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

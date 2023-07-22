@@ -48,7 +48,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 TempData["mensajeError"] = "Ingrese correo y contraseña";
             }
 
-            return View();
+            return RedirectToAction("Inicio", "Inicio");
         }
     }
 }
