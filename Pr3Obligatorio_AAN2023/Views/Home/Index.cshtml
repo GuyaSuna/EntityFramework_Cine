@@ -53,10 +53,8 @@
             <h3 class="section-subheading text-muted">Aquí puedes encontrar las últimas tendencias</h3>
         </div>
         <div class="row">
-            <!--comprueba si el modelo contiene algún dato -->
             @if (Model != null && Model.Count > 0)
             {
-                <!--Este diccionario se utilizará para agrupar los objetos Funcion por el título de la película-->
                 Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
                 foreach (var funcion in Model)
                 {
@@ -79,6 +77,7 @@
                             </a>
                             <div class="portfolio-caption">
                                 <select class="form-select" name="funciones" id="funciones">
+                                  
                                     @foreach (var funcion in funcionesPorTitulo[titulo])
                                     {
                                         <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
@@ -86,7 +85,10 @@
                                 </select>
                                 <div class="portfolio-caption-heading">@titulo</div>
                                 <div class="portfolio-caption-buttons">
-                                        <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                    @if (@ViewData["Usuario"] != null)
+                                    {
+                                    <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                    }
                                 </div>
                             </div>
                         </div>
