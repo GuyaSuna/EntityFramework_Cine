@@ -7,14 +7,15 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 {
     public class InicioController : Controller
     {
-
+        public ActionResult Login()
+        {
+            return View();
+        }
         private readonly ApplicationDbContext _context;
-        private readonly IMemoryCache _cache;
 
-        public InicioController(ApplicationDbContext context, IMemoryCache cache)
+        public InicioController(ApplicationDbContext context)
         {
             _context = context;
-            _cache = cache;
         }
         public ActionResult Login()
         {
