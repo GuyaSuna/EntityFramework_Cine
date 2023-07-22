@@ -56,7 +56,36 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Reservas/Create
         public IActionResult Create(int funcionId)
         {
-            var Usuario = _cache.Get("Usuario") as Usuario; // Asegúrate de que Usuario sea el tipo correcto
+            var Usuario = _cache.Get("Usuario") as Usuario;
+            var Funciones = _context.Funciones.Include(r => r.Sala).ToList();
+            var Reservas = _context.Reservas.Include(r => r.Funcion).ToList();
+
+            // Obtener la función actual
+            var funcion = Funciones.FirstOrDefault(f => f.Id == funcionId);
+
+            if (funcion == null)
+            {
+                // Si no se encontró la función con el Id proporcionado,
+                // muestra un mensaje de error o redirige a otra página
+                return RedirectToAction("Index", "Funciones");
+            }
+
+            // Obtener la cantidad total de asientos en la sala
+            int cantidadTotalAsientos = funcion.Sala.CantAsientos;
+
+            // Calcular la cantidad de asientos reservados para la función actual
+            int cantidadAsientosReservados = Reservas
+                .Where(r => r.Funcion.Id == funcionId)
+                .Sum(r => r.Asiento);
+
+            // Calcular la cantidad de asientos disponibles
+            int cantidadAsientosDisponibles = cantidadTotalAsientos - cantidadAsientosReservados;
+
+            if (cantidadAsientosDisponibles <= 0)
+            {
+                TempData["mensajeError"] = "No quedan asientos suficientes para su reserva, intente con menos asientos";
+                return RedirectToAction("Index", "Funciones");
+            }
 
             if (Usuario != null)
             {
@@ -66,9 +95,11 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             }
             else
             {
-                return NotFound(); // Otra acción en caso de que el usuario no exista en la memoria caché
+                return NotFound();
             }
         }
+
+
 
 
         // POST: Reservas/Create
@@ -81,7 +112,12 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             int usuarioId = int.Parse(Request.Form["Usuario"]);
 
             // Buscar la Funcion y el Usuario en la base de datos por su Id
-            var funcion = await _context.Funciones.FindAsync(funcionId);
+            var funcion = await _context.Funciones
+               .Include(r => r.Sala)
+               .Include(r => r.Pelicula) 
+               .SingleOrDefaultAsync(f => f.Id == funcionId);
+
+
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
 
             if (funcion == null || usuario == null)
@@ -91,9 +127,36 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 return RedirectToAction("Index", "Funciones");
             }
 
+            // Obtener la cantidad total de asientos en la sala
+            int cantidadTotalAsientos = funcion.Sala.CantAsientos;
+
+            // Calcular la cantidad de asientos reservados para la función actual
+            int cantidadAsientosReservados = _context.Reservas
+                .Where(r => r.Funcion.Id == funcionId && r.Id != reserva.Id) // Excluir la reserva actual si es una edición
+                .Sum(r => r.Asiento);
+
+            // Calcular la cantidad de asientos disponibles
+            int cantidadAsientosDisponibles = cantidadTotalAsientos - cantidadAsientosReservados;
+
+            if (reserva.Asiento > cantidadAsientosDisponibles)
+            {
+                TempData["mensajeError"] = "No hay suficientes asientos disponibles para su reserva, intente con menos asientos";
+                return RedirectToAction("Create", "Reservas", new {  funcionId });
+            }
+
             // Asignar los objetos Funcion y Usuario a la reserva
             reserva.Funcion = funcion;
             reserva.Usuario = usuario;
+            if (funcion != null)
+            {
+                // Pasar cada propiedad de la entidad Funcion por separado a la vista utilizando ViewBag
+                ViewBag.FuncionTitulo = funcion.Pelicula.Titulo;
+                ViewBag.FuncionFecha = funcion.Fecha;
+                ViewBag.FuncionHorario = funcion.Horario;
+                ViewBag.FuncionSalaNr = funcion.Sala.NroSala;
+            }
+
+
 
             if (ModelState.IsValid)
             {
@@ -106,6 +169,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             // Si el modelo no es válido, volvemos a mostrar el formulario con los errores
             return View(reserva);
         }
+
 
 
         // GET: Reservas/Edit/5

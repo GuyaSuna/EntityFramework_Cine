@@ -36,8 +36,11 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Inicio" asp-action="Inicio">Login</a>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registrate!!</a></li>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registrate!!</a>
+                         </li>
+                    
                     }
                     @if (UserLoggedIn()){
                     <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
