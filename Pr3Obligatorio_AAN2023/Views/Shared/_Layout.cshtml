@@ -31,12 +31,6 @@
                 Menu
                 <i class="fas fa-bars ms-1"></i>
             </button>  
-            @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
-            {
-                @Html.TextBox("searchString", null, new { @class = "form-control mr-sm-2", placeholder = "Buscar" })
-                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
-            }
-
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                     @if (!UserLoggedIn())
@@ -53,6 +47,11 @@
                     }
                 </ul>
             </div>
+            @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+            {
+                @Html.TextBox("searchString", null, new { @class = "form-control mr-sm-2", placeholder = "Buscar" })
+                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
+            }
         </div>
     </nav>
     <header class="masthead2">

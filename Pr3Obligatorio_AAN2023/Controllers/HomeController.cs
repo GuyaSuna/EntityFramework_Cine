@@ -18,7 +18,11 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             _context = context;
             
         }
-
+        public IActionResult Buscar(string searchString)
+        {
+            var resultados = _context.Peliculas.Where(e => e.Titulo.Contains(searchString)).ToList();
+            return View(resultados);
+        }
         public IActionResult Index()
         {
             var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
