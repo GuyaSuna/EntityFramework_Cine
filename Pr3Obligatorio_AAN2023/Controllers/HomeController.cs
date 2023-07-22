@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 using System.Diagnostics;
@@ -10,16 +11,23 @@ namespace Pr3Obligatorio_AAN2023.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMemoryCache cache)
         {
             _logger = logger;
             _context = context;
+            _cache = cache;
         }
 
         public IActionResult Index()
         {
             var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
+            var Usuario = _cache.Get("Usuario") as Usuario;
+                if(Usuario != null)
+            {
+                ViewData["Usuario"] = Usuario;
+            }
 
             return View(funciones);
         }
