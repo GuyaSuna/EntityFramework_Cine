@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 
@@ -13,7 +14,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly IMemoryCache _cache;
         public ReservasController(ApplicationDbContext context)
         {
             _context = context;

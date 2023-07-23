@@ -1,10 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Caching.Memory;
+
+@functions {
+    public bool UserLoggedIn()
+    {
+        var usuario = Context.RequestServices.GetService<IMemoryCache>().Get<Usuario>("Usuario");
+        return usuario != null;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Pr3Obligatorio_AAN2023</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pr3Obligatorio_AAN2023.styles.css" asp-append-version="true" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -21,16 +31,22 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars ms-1"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+            </button>  
+                        <li class="nav-item">
+                        </li>
+                    }
+                    @if (UserLoggedIn()){
                     <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Reservas" asp-action="Index">Reservas</a></li>
+
                     <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Usuarips" asp-action="Index">Usuarios</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Inicio" asp-action="Login">Login</a></li>
+                    }
                 </ul>
             </div>
+            @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+            {
+                @Html.TextBox("searchString", null, new { @class = "form-control mr-sm-2", placeholder = "Buscar" })
+                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
+            }
         </div>
     </nav>
     <header class="masthead2">
@@ -45,7 +61,12 @@
             @RenderBody()
         </main>
     </div>
-   
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Pr3Obligatorio_AAN2023 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 
@@ -11,26 +12,33 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             return View();
         }
         private readonly ApplicationDbContext _context;
-
-        public InicioController(ApplicationDbContext context)
+        private readonly IMemoryCache _cache;
+        public InicioController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
+        }
+        public ActionResult Inicio()
+        {
+            return View();
         }
         [HttpPost]
         public ActionResult Login(Usuario u)
         {
             if (u != null)
             {
+                
                 var Usuario = _context.Usuarios.FirstOrDefault(obj => obj.Email == u.Email);
-                if (Usuario == null)
+                if (Usuario != null)
                 {
                     if (u.Constraseña != Usuario.Constraseña)
                     {
-                        TempData["mensajeError"] = "La contrseña es incorrecta!";
+                        TempData["mensajeError"] = "La contrse単a es incorrecta!";
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Categoria");
+                        _cache.Set("Usuario", Usuario);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 else
@@ -40,10 +48,10 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             }
             else
             {
-                TempData["mensajeError"] = "Ingrese correo y contraseña";
+                TempData["mensajeError"] = "Ingrese correo y contrase単a";
             }
 
-            return View();
+            return RedirectToAction("Inicio", "Inicio");
         }
     }
 }

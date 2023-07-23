@@ -1,0 +1,33 @@
+﻿@model Administrativo
+
+@{
+    var mensajeError = TempData["mensajeError"] as string;
+}
+
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+    <div class="alert alert-danger">
+        @mensajeError
+    </div>
+}
+<div class="container">
+<form method="post" asp-action="Login" asp-controller="InicioAdmin">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" required asp-for="Email">
+        <div id="emailHelp" class="form-text">Correo Electronico</div>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" required asp-for="Constraseña" />
+    </div>
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+
+    <label class="alert-danger">@ViewBag.Error</label>
+    <div>
+        <a class="btn btn-primary" asp-controller="Administrativoes" asp-action="Create">Agregar nuevo</a>
+    </div>
+
+ 
+</form>
+</div>

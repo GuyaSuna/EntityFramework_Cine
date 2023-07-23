@@ -1,7 +1,8 @@
 ﻿@model Usuario
+<link href="~/css/styles.css" rel="stylesheet" />
 
 @{
-    var mensajeError = TempData["MensajeError"] as string;
+    var mensajeError = TempData["mensajeError"] as string;
 }
 
 @if (!string.IsNullOrEmpty(mensajeError))
@@ -10,9 +11,7 @@
         @mensajeError
     </div>
 }
-@{
-    Layout = "~/Views/Shared/InicioLayout.cshtml";
-}
+<div class="container">
 <form method="post" asp-action="Login" asp-controller="Inicio">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -25,4 +24,8 @@
     </div>
     <button type="submit" class="btn btn-primary">Ingresar</button>
     <label class="alert-danger">@ViewBag.Error</label>
+    <div>
+            <a class="btn btn-primary"  asp-controller="InicioAdmin" asp-action="InicioAdmin">Soy Admin</a>
+    </div>
 </form>
+</div>

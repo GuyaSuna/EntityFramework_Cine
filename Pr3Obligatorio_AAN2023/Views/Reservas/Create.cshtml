@@ -1,7 +1,11 @@
 ﻿@model Pr3Obligatorio_AAN2023.Models.Reserva
-
 @{
-    ViewData["Title"] = "Create";
+    var mensajeError = TempData["mensajeError"] as string;
+}
+
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+    <div class="alert alert-danger">@mensajeError</div>
 }
 
 <h1>Create</h1>
@@ -11,15 +15,26 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Asiento" class="control-label"></label>
-                <input asp-for="Asiento" class="form-control" />
+                <label class="control-label">Funcion</label>
+                <p class="form-control-static">@ViewData["FuncionTitulo"]</p>
+                <p class="form-control-static">Fecha: @ViewData["FuncionFecha"] Hora: @ViewData["FuncionHorario"] - Sala Nr° @ViewData["FuncionSalaNr"]</p>
+            </div>
+            <input asp-for="Funcion" value="@ViewData["FuncionId"]" type="hidden" />
+
+            <div class="form-group">
+                <label asp-for="Usuario" class="control-label">Usuario</label>
+                <input asp-for="Usuario" value="@ViewData["Usuario"]" class="form-control" type="number" min="1" />
+                <span asp-validation-for="Usuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Asiento" class="control-label">Asiento</label>
+                <input asp-for="Asiento" class="form-control" type="number" min="1" max="100" />
                 <span asp-validation-for="Asiento" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" class="form-control" />
+                <label asp-for="Precio" class="control-label">Precio</label>
+                <input asp-for="Precio" class="form-control" readonly />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,7 +47,29 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            // Obtener el campo de cantidad de asientos y el campo de precio
+            var cantidadAsientosInput = $("#Asiento");
+            var precioInput = $("#Precio");
+
+            // Manejar el evento de cambio en el campo de cantidad de asientos
+            cantidadAsientosInput.change(function () {
+                // Obtener el valor de la cantidad de asientos y el precio base
+                var cantidadAsientos = parseInt(cantidadAsientosInput.val());
+                var precioBase = 100;
+
+                // Calcular el nuevo precio multiplicando el precio base por la cantidad de asientos
+                var nuevoPrecio = cantidadAsientos * precioBase;
+
+                // Actualizar el valor del campo de precio
+                precioInput.val(nuevoPrecio);
+            });
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

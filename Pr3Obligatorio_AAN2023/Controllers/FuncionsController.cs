@@ -22,10 +22,21 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Funcions
         public async Task<IActionResult> Index()
         {
-              return _context.Funciones != null ? 
-                          View(await _context.Funciones.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Funciones'  is null.");
+            var funciones = await _context.Funciones
+                .Include(f => f.Pelicula)
+                .Include(f => f.Sala)
+                .ToListAsync();
+
+            if (funciones != null)
+            {
+                return View(funciones);
+            }
+            else
+            {
+                return Problem("Entity set 'ApplicationDbContext.Funciones' is null.");
+            }
         }
+
 
         // GET: Funcions/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -48,18 +59,26 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Funcions/Create
         public IActionResult Create()
         {
+            ViewBag.Peliculas = _context.Peliculas.ToList();
+            ViewBag.Salas = _context.Salas.ToList();
+
             return View();
         }
+
 
         // POST: Funcions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,Horario")] Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id,Pelicula,Sala,Fecha,Horario")] Funcion funcion)
         {
             if (ModelState.IsValid)
             {
+                // Obtener los objetos de Pelicula y Sala según los identificadores seleccionados
+                funcion.Pelicula = await _context.Peliculas.FindAsync(funcion.Pelicula.Id);
+                funcion.Sala = await _context.Salas.FindAsync(funcion.Sala.NroSala);
+
                 _context.Add(funcion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -150,14 +169,14 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             {
                 _context.Funciones.Remove(funcion);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FuncionExists(int id)
         {
-          return (_context.Funciones?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Funciones?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
