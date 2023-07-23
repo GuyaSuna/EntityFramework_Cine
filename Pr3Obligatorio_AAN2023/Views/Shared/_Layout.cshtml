@@ -1,10 +1,24 @@
 ﻿@using Microsoft.Extensions.Caching.Memory;
 @functions {
-    public bool UserLoggedIn()
+    public string UserOrAdminLoggedIn()
     {
         var usuario = Context.RequestServices.GetService<IMemoryCache>().Get<Usuario>("Usuario");
-        return usuario != null;
+        var admin = Context.RequestServices.GetService<IMemoryCache>().Get<Administrativo>("Administrativo");
+        if(usuario != null)
+        {
+            return "Usuario";
+        }
+        else if (admin != null)
+        {
+            return "Administrativo";
+        }
+        else
+        {
+            return "";
+        }
     }
+
+  
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -32,18 +46,37 @@
             </button>           
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    @if (!UserLoggedIn())
+                    @if (UserOrAdminLoggedIn() == "")
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Inicio" asp-action="Inicio">Login</a>
                         <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Create">Registrate!!</a></li>
                         </li>
                     }
-                    @if (UserLoggedIn()){
-                    <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
-
-                    <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
+                    @if (UserOrAdminLoggedIn() == "Usuario"){
+                        <li class="nav-item">
+                            <form method="post" asp-controller="Home" asp-action="Logout" asp-antiforgery="true">
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            </form>
+                        </li>
                     }
+                    @if (UserOrAdminLoggedIn() == "Administrativo")
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Peliculas" asp-action="Index">Peliculas</a></li>
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Funcions" asp-action="Index">Funciones</a></li>
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Salas" asp-action="Index">Salas</a></li>
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+
+                        <li class="nav-item">
+                            <form method="post" asp-controller="Home" asp-action="Logout" asp-antiforgery="true">
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            </form>
+                        </li>
+                    }
+               
                 </ul>
             </div>
         </div>

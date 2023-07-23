@@ -62,5 +62,16 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Logout()
+        {
+            // Eliminar el usuario o administrativo de la memoria caché para cerrar la sesión
+            HttpContext.RequestServices.GetService<IMemoryCache>().Remove("Usuario");
+            HttpContext.RequestServices.GetService<IMemoryCache>().Remove("Administrativo");
+
+            // Redirigir a la acción Inicio o a cualquier otra página que desees después del logout
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
+

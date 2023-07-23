@@ -5,37 +5,37 @@ using Pr3Obligatorio_AAN2023.Models;
 
 namespace Pr3Obligatorio_AAN2023.Controllers
 {
-    public class InicioController : Controller
+    public class InicioAdminController : Controller
     {
-       
+
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
- 
-        public InicioController(ApplicationDbContext context , IMemoryCache cache)
+
+        public InicioAdminController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
-            _cache = cache;  
+            _cache = cache;
         }
-        public ActionResult Inicio()
+        public ActionResult InicioAdmin()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult Login(Usuario u)
+        public ActionResult Login(Administrativo u)
         {
             if (u != null)
             {
-                
-                var Usuario = _context.Usuarios.FirstOrDefault(obj => obj.Email == u.Email);
-                if (Usuario != null)
+
+                var Administrativo = _context.Administrativos.FirstOrDefault(obj => obj.Email == u.Email);
+                if (Administrativo != null)
                 {
-                    if (u.Constraseña != Usuario.Constraseña)
+                    if (u.Constraseña != Administrativo.Constraseña)
                     {
                         TempData["mensajeError"] = "La contrseña es incorrecta!";
                     }
                     else
                     {
-                        _cache.Set("Usuario", Usuario);
+                        _cache.Set("Administrativo", Administrativo);
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -49,7 +49,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 TempData["mensajeError"] = "Ingrese correo y contraseña";
             }
 
-            return RedirectToAction("Inicio", "Inicio");
+            return RedirectToAction("Inicio", "InicioAdmin");
         }
     }
 }

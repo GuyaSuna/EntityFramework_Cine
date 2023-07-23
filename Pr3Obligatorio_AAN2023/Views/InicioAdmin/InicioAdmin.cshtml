@@ -1,4 +1,4 @@
-﻿@model Usuario
+﻿@model Administrativo
 
 @{
     var mensajeError = TempData["mensajeError"] as string;
@@ -11,7 +11,7 @@
     </div>
 }
 
-<form method="post" asp-action="Login" asp-controller="Inicio">
+<form method="post" asp-action="Login" asp-controller="InicioAdmin">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input type="email" class="form-control" id="exampleInputEmail1" required asp-for="Email">
@@ -22,9 +22,11 @@
         <input type="password" class="form-control" id="exampleInputPassword1" required asp-for="Constraseña" />
     </div>
     <button type="submit" class="btn btn-primary">Ingresar</button>
-    <label class="alert-danger">@ViewBag.Error</label>
 
+    <label class="alert-danger">@ViewBag.Error</label>
     <div>
-        <a asp-controller="InicioAdmin" asp-action="InicioAdmin">Soy Admin</a>
+        <a class="btn btn-primary" asp-controller="Administrativoes" asp-action="Create">Agregar nuevo</a>
     </div>
+
+ 
 </form>
