@@ -7,20 +7,18 @@
     <ul>
         @foreach (var item in Model)
         {
-            
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@item.Cartelera" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Titulo</h5>
+                            <h5 class="card-title">@item.Clasificacion</h5>
+                            <p class="card-text">@item.Sinopsis</p>
                         </div>
-                        <img class="img-fluid" src="@item.Cartelera" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">
-                            <p>@item.Titulo</p>
-                         </div>
                     </div>
                 </div>
             </div>
@@ -29,5 +27,5 @@
 }
 else
 {
-    <p>No se encontraron resultados.</p>
+   <p>No se encontraron resultados</p>
 }
