@@ -54,12 +54,17 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         }
 
         // GET: Reservas/Create
+        // Resto del código del controlador...
+
+        // GET: Reservas/Create
         public IActionResult Create(int funcionId)
         {
-            var funcion = _context.Funciones
-                .Include(r => r.Sala)
-                .Include(r => r.Pelicula)
-                .FirstOrDefault(f => f.Id == funcionId);
+            var Usuario = _cache.Get("Usuario") as Usuario;
+            var Funciones = _context.Funciones.Include(r => r.Sala).Include(r => r.Pelicula).ToList();
+            var Reservas = _context.Reservas.Include(r => r.Funcion).ToList();
+
+            // Obtener la función actual
+            var funcion = Funciones.FirstOrDefault(f => f.Id == funcionId);
 
             if (funcion == null)
             {
@@ -72,7 +77,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             int cantidadTotalAsientos = funcion.Sala.CantAsientos;
 
             // Calcular la cantidad de asientos reservados para la función actual
-            int cantidadAsientosReservados = _context.Reservas
+            int cantidadAsientosReservados = Reservas
                 .Where(r => r.Funcion.Id == funcionId)
                 .Sum(r => r.Asiento);
 
@@ -85,15 +90,26 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 return RedirectToAction("Index", "Funciones");
             }
 
-            // Pasar los datos de la función a ViewData
-            ViewData["FuncionId"] = funcionId;
-            ViewData["FuncionTitulo"] = funcion.Pelicula.Titulo;
-            ViewData["FuncionFecha"] = funcion.Fecha;
-            ViewData["FuncionHorario"] = funcion.Horario;
-            ViewData["FuncionSalaNr"] = funcion.Sala.NroSala;
-
-            return View();
+            if (Usuario != null)
+            {
+                ViewData["Usuario"] = Usuario.Id; // Asignar el ID del usuario a ViewData
+                ViewData["FuncionId"] = funcionId;
+                ViewData["FuncionTitulo"] = funcion.Pelicula.Titulo;
+                ViewData["FuncionFecha"] = funcion.Fecha;
+                ViewData["FuncionHorario"] = funcion.Horario;
+                ViewData["FuncionSalaNr"] = funcion.Sala.NroSala;
+                return View();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
+        // Resto del código del controlador...
+
+
+
 
 
 
@@ -108,11 +124,14 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 return View(reserva);
             }
 
+            var funcionId = int.Parse(Request.Form["Funcion"]);
+
             // Obtener el valor de FuncionId desde ViewData
-            if (ViewData["FuncionId"] == null || !int.TryParse(ViewData["FuncionId"].ToString(), out int funcionId))
+            if (funcionId == null)
             {
                 // Si no se pudo obtener el valor de funcionId correctamente, redirigir a otra página o mostrar un mensaje de error
-                return RedirectToAction("Index", "Funciones");
+                Console.WriteLine("Nope x2"); 
+                return RedirectToAction("Index", "Reservas");
             }
 
             var funcion = await _context.Funciones
@@ -124,7 +143,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             {
                 // Si no se encontró la función con el Id proporcionado,
                 // muestra un mensaje de error o redirige a otra página
-                return RedirectToAction("Index", "Funciones");
+                return RedirectToAction("Create", "Reservas", new { funcionId });
             }
 
             // Obtener la cantidad total de asientos en la sala
@@ -154,7 +173,8 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             {
                 // Si no se encontró el usuario con el Id proporcionado,
                 // muestra un mensaje de error o redirige a otra página
-                return RedirectToAction("Index", "Funciones");
+                Console.WriteLine("nope");
+                return RedirectToAction("Index", "Reservas");
             }
 
             // Asignar los objetos Funcion y Usuario a la reserva
