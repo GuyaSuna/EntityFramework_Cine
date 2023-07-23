@@ -128,7 +128,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             if (funcionId == null)
             {
                 // Si no se pudo obtener el valor de funcionId correctamente, redirigir a otra página o mostrar un mensaje de error
-                Console.WriteLine("Nope x2");
+                Console.WriteLine("Nope x2"); 
                 return RedirectToAction("Index", "Reservas");
             }
 

@@ -161,22 +161,18 @@
                             </a>
                             <div class="portfolio-caption">
                                 <select class="form-select" name="funciones" id="funciones">
-                                  
                                     @foreach (var funcion in funcionesPorTitulo[titulo])
                                     {
                                         <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
                                     }
                                 </select>
-                                <div class="portfolio-caption-heading">@titulo</div>
-                                <div class="portfolio-caption-buttons">
-                                    @if (@ViewData["Usuario"] != null)
-                                    {
+                                @if (@ViewData["Usuario"] != null)
+                                {
                                     <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
-                                    }
+                                }
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>                   
                 }
             }
         </div>
