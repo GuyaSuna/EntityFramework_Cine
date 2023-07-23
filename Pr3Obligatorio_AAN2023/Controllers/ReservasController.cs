@@ -56,12 +56,10 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         // GET: Reservas/Create
         public IActionResult Create(int funcionId)
         {
-            var Usuario = _cache.Get("Usuario") as Usuario;
-            var Funciones = _context.Funciones.Include(r => r.Sala).ToList();
-            var Reservas = _context.Reservas.Include(r => r.Funcion).ToList();
-
-            // Obtener la función actual
-            var funcion = Funciones.FirstOrDefault(f => f.Id == funcionId);
+            var funcion = _context.Funciones
+                .Include(r => r.Sala)
+                .Include(r => r.Pelicula)
+                .FirstOrDefault(f => f.Id == funcionId);
 
             if (funcion == null)
             {
@@ -74,7 +72,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             int cantidadTotalAsientos = funcion.Sala.CantAsientos;
 
             // Calcular la cantidad de asientos reservados para la función actual
-            int cantidadAsientosReservados = Reservas
+            int cantidadAsientosReservados = _context.Reservas
                 .Where(r => r.Funcion.Id == funcionId)
                 .Sum(r => r.Asiento);
 
@@ -87,20 +85,14 @@ namespace Pr3Obligatorio_AAN2023.Controllers
                 return RedirectToAction("Index", "Funciones");
             }
 
-            if (Usuario != null)
-            {
-                ViewData["UsuarioId"] = Usuario.Id; // Asignar el ID del usuario a ViewData
-                ViewData["FuncionId"] = funcionId;
-                ViewData["FuncionTitulo"] = funcion.Pelicula.Titulo;
-                ViewData["FuncionFecha"] = funcion.Fecha;
-                ViewData["FuncionHorario"] = funcion.Horario;
-                ViewData["FuncionSalaNr"] = funcion.Sala.NroSala;
-                return View();
-            }
-            else
-            {
-                return NotFound();
-            }
+            // Pasar los datos de la función a ViewData
+            ViewData["FuncionId"] = funcionId;
+            ViewData["FuncionTitulo"] = funcion.Pelicula.Titulo;
+            ViewData["FuncionFecha"] = funcion.Fecha;
+            ViewData["FuncionHorario"] = funcion.Horario;
+            ViewData["FuncionSalaNr"] = funcion.Sala.NroSala;
+
+            return View();
         }
 
 
