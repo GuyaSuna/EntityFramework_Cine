@@ -10955,6 +10955,7 @@ header.masthead {
     background-image: url(/assets/img/fondoCine.jpg);
 }
 header.masthead2 {
+    width: max-content;
     padding-top: 10.5rem;
     padding-bottom: 6rem;
     text-align: center;
