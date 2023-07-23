@@ -11,21 +11,71 @@
         @mensajeError
     </div>
 }
-<div class="container">
-<form method="post" asp-action="Login" asp-controller="Inicio">
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" required asp-for="Email">
-        <div id="emailHelp" class="form-text">Correo Electronico</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login más lindo</title>
+    <!-- CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos adicionales -->
+    <style>
+        body {
+            background-color: #2333;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .login-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .login-container label {
+                font-weight: bold;
+            }
+
+            .login-container .form-control {
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                box-shadow: none;
+            }
+
+            .login-container .btn-primary {
+                width: 100%;
+            }
+    </style>
+</head>
+<body>
+    <!-- Contenedor del formulario de inicio de sesión -->
+    <div class="container mt-5 pt-5">
+        <div class="login-container">
+            <h2>Iniciar Sesión</h2>
+            <form method="post" asp-action="Login" asp-controller="Inicio">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="username" placeholder="Ingrese su email" required asp-for="Email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required asp-for="Constraseña">
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                <label class="alert-danger">@ViewBag.Error</label>
+                <button type="submit" class="btn btn-primary" asp-controller="InicioAdmin" asp-action="InicioAdmin">Soy admin</button>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" required asp-for="Constraseña" />
-    </div>
-    <button type="submit" class="btn btn-primary">Ingresar</button>
-    <label class="alert-danger">@ViewBag.Error</label>
-    <div>
-            <a class="btn btn-primary"  asp-controller="InicioAdmin" asp-action="InicioAdmin">Soy Admin</a>
-    </div>
-</form>
-</div>
+
+    <!-- JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
