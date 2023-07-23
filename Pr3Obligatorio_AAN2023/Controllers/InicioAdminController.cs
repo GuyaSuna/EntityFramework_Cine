@@ -23,33 +23,42 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         [HttpPost]
         public ActionResult Login(Administrativo u)
         {
-            if (u != null)
             {
-
-                var Administrativo = _context.Administrativos.FirstOrDefault(obj => obj.Email == u.Email);
-                if (Administrativo != null)
+                if (u != null)
                 {
-                    if (u.Constraseña != Administrativo.Constraseña)
+                    // Verificar si el correo pertenece a un administrador
+                    var Administrativo = _context.Administrativos.FirstOrDefault(obj => obj.Email == u.Email);
+                    if (Administrativo != null)
                     {
-                        TempData["mensajeError"] = "La contrseña es incorrecta!";
+                        // Verificar que el correo termine con "@admin.com"
+                        if (!u.Email.EndsWith("@admin.com"))
+                        {
+                            TempData["mensajeError"] = "No eres admin";
+                            return RedirectToAction("InicioAdmin");
+                        }
+
+                        if (u.Constraseña != Administrativo.Constraseña)
+                        {
+                            TempData["mensajeError"] = "La contraseña es incorrecta!";
+                        }
+                        else
+                        {
+                            _cache.Set("Administrativo", Administrativo);
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
-                        _cache.Set("Administrativo", Administrativo);
-                        return RedirectToAction("Index", "Home");
+                        TempData["mensajeError"] = "No eres admin";
                     }
                 }
                 else
                 {
-                    TempData["mensajeError"] = "Correo no existe";
+                    TempData["mensajeError"] = "Ingrese correo y contrase単a";
                 }
-            }
-            else
-            {
-                TempData["mensajeError"] = "Ingrese correo y contraseña";
-            }
 
-            return RedirectToAction("Inicio", "InicioAdmin");
+                return RedirectToAction("InicioAdmin");
+            }
         }
     }
 }
