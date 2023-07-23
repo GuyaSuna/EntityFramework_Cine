@@ -17,10 +17,10 @@
         <form asp-action="Create">
             <div class="form-group">
                 <label class="control-label">Funcion</label>
-                <p class="form-control-static">@ViewBag.FuncionTitulo</p>
-                <p class="form-control-static">Fecha: @ViewBag.FuncionFecha Hora: @ViewBag.FuncionHorario - Sala Nr° @ViewBag.FuncionSalaNr</p>
+                <p class="form-control-static">@ViewData["FuncionTitulo"]</p>
+                <p class="form-control-static">Fecha: @ViewData["FuncionFecha"] Hora: @ViewData["FuncionHorario"] - Sala Nr° @ViewData["FuncionSalaNr"]</p>
             </div>
-            <input asp-for="Funcion" value="@ViewData["Funcion"]" />
+            <input asp-for="Funcion.Id" value="@ViewData["FuncionId"]" type="hidden" />
 
 
             <div class="form-group">

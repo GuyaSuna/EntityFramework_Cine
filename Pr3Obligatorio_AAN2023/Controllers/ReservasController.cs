@@ -89,8 +89,12 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 
             if (Usuario != null)
             {
-                ViewData["Usuario"] = Usuario.Id;
-                ViewData["Funcion"] = funcionId;
+                ViewData["UsuarioId"] = Usuario.Id; // Asignar el ID del usuario a ViewData
+                ViewData["FuncionId"] = funcionId;
+                ViewData["FuncionTitulo"] = funcion.Pelicula.Titulo;
+                ViewData["FuncionFecha"] = funcion.Fecha;
+                ViewData["FuncionHorario"] = funcion.Horario;
+                ViewData["FuncionSalaNr"] = funcion.Sala.NroSala;
                 return View();
             }
             else
@@ -101,28 +105,32 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 
 
 
-
         // POST: Reservas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Reserva reserva)
         {
-            // Obtener el valor de Funcion y Usuario desde el formulario
-            int funcionId = int.Parse(Request.Form["Funcion"]);
-            int usuarioId = int.Parse(Request.Form["Usuario"]);
+            if (!ModelState.IsValid)
+            {
+                // Si el modelo no es válido, volvemos a mostrar el formulario con los errores
+                return View(reserva);
+            }
 
-            // Buscar la Funcion y el Usuario en la base de datos por su Id
+            // Obtener el valor de FuncionId desde ViewData
+            if (ViewData["FuncionId"] == null || !int.TryParse(ViewData["FuncionId"].ToString(), out int funcionId))
+            {
+                // Si no se pudo obtener el valor de funcionId correctamente, redirigir a otra página o mostrar un mensaje de error
+                return RedirectToAction("Index", "Funciones");
+            }
+
             var funcion = await _context.Funciones
                .Include(r => r.Sala)
-               .Include(r => r.Pelicula) 
-               .SingleOrDefaultAsync(f => f.Id == funcionId);
+               .Include(r => r.Pelicula)
+               .FirstOrDefaultAsync(f => f.Id == funcionId);
 
-
-            var usuario = await _context.Usuarios.FindAsync(usuarioId);
-
-            if (funcion == null || usuario == null)
+            if (funcion == null)
             {
-                // Si no se encontró la función o el usuario con el Id proporcionado,
+                // Si no se encontró la función con el Id proporcionado,
                 // muestra un mensaje de error o redirige a otra página
                 return RedirectToAction("Index", "Funciones");
             }
@@ -141,33 +149,30 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             if (reserva.Asiento > cantidadAsientosDisponibles)
             {
                 TempData["mensajeError"] = "No hay suficientes asientos disponibles para su reserva, intente con menos asientos";
-                return RedirectToAction("Create", "Reservas", new {  funcionId });
+                return RedirectToAction("Create", "Reservas", new { funcionId });
+            }
+
+            // Obtener el valor de usuarioId desde el formulario
+            int usuarioId = int.Parse(Request.Form["Usuario"]);
+
+            // Buscar el Usuario en la base de datos por su Id
+            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+
+            if (usuario == null)
+            {
+                // Si no se encontró el usuario con el Id proporcionado,
+                // muestra un mensaje de error o redirige a otra página
+                return RedirectToAction("Index", "Funciones");
             }
 
             // Asignar los objetos Funcion y Usuario a la reserva
             reserva.Funcion = funcion;
             reserva.Usuario = usuario;
-            if (funcion != null)
-            {
-                // Pasar cada propiedad de la entidad Funcion por separado a la vista utilizando ViewBag
-                ViewBag.FuncionTitulo = funcion.Pelicula.Titulo;
-                ViewBag.FuncionFecha = funcion.Fecha;
-                ViewBag.FuncionHorario = funcion.Horario;
-                ViewBag.FuncionSalaNr = funcion.Sala.NroSala;
-            }
 
-
-
-            if (ModelState.IsValid)
-            {
-                // Agregar la reserva a la base de datos
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Si el modelo no es válido, volvemos a mostrar el formulario con los errores
-            return View(reserva);
+            // Agregar la reserva a la base de datos
+            _context.Add(reserva);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
 
