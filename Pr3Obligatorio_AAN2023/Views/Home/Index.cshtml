@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@{
+    var mensajeError = TempData["mensajeError"] as string;
+}
+
 <link href="~/css/styles.css" rel="stylesheet" />
 
 
@@ -157,13 +161,19 @@
                             </a>
                             <div class="portfolio-caption">
                                 <select class="form-select" name="funciones" id="funciones">
-                                    <option value="">Seleccionar función</option>
+                                  
                                     @foreach (var funcion in funcionesPorTitulo[titulo])
                                     {
                                         <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
                                     }
                                 </select>
                                 <div class="portfolio-caption-heading">@titulo</div>
+                                <div class="portfolio-caption-buttons">
+                                    @if (@ViewData["Usuario"] != null)
+                                    {
+                                    <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,6 +182,13 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
 
 <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">

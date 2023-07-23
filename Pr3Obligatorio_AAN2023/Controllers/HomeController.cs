@@ -11,11 +11,14 @@ namespace Pr3Obligatorio_AAN2023.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
+
         
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMemoryCache cache)
         {
             _logger = logger;
             _context = context;
+            _cache = cache;
             
         }
         public IActionResult Buscar(string searchString)
@@ -26,6 +29,11 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         public IActionResult Index()
         {
             var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
+            var Usuario = _cache.Get("Usuario") as Usuario;
+                if(Usuario != null)
+            {
+                ViewData["Usuario"] = Usuario;
+            }
 
             return View(funciones);
         }
@@ -60,5 +68,16 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Logout()
+        {
+            // Eliminar el usuario o administrativo de la memoria caché para cerrar la sesión
+            HttpContext.RequestServices.GetService<IMemoryCache>().Remove("Usuario");
+            HttpContext.RequestServices.GetService<IMemoryCache>().Remove("Administrativo");
+
+            // Redirigir a la acción Inicio o a cualquier otra página que desees después del logout
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
+
