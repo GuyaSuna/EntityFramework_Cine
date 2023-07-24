@@ -10826,12 +10826,14 @@ textarea.form-control-lg {
   }
 }
 html {
-  scroll-padding-top: 4.5rem;
-  height: max-content;
+    scroll-padding-top: 4.5rem;
+    height: max-content;
+    background: #141414;
 }
 
 body {
-  position: relative;
+    position: relative;
+    background: linear-gradient(to left, #3C4048, #3C40);
 }
 
 p {
@@ -10877,9 +10879,9 @@ p {
 }
 
 #mainNav {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background-color: black;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #141414;
 }
 #mainNav .navbar-toggler {
   padding: 0.75rem;
