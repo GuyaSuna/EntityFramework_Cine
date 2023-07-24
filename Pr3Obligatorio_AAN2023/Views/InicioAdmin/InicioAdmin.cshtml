@@ -10,24 +10,101 @@
         @mensajeError
     </div>
 }
-<div class="container">
-<form method="post" asp-action="Login" asp-controller="InicioAdmin">
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" required asp-for="Email">
-        <div id="emailHelp" class="form-text">Correo Electronico</div>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" required asp-for="Constraseña" />
-    </div>
-    <button type="submit" class="btn btn-primary">Ingresar</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login más lindo</title>
+    <!-- CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos adicionales -->
+    <link href="~/css/styles.css" rel="stylesheet" />
 
-    <label class="alert-danger">@ViewBag.Error</label>
-    <div>
-        <a class="btn btn-primary" asp-controller="Administrativoes" asp-action="Create">Agregar nuevo</a>
-    </div>
+    <style>
+        body {
+            background: #3C4048;
+            background: linear-gradient(to left, #3C4048, #3C40);
+        }
 
- 
-</form>
-</div>
+        .card-img-left {
+            width: 45%;
+            /* Link to your background image using in the property below! */
+            background: scroll center url('https://img.freepik.com/foto-gratis/grupo-gente-joven-cine_23-2148115362.jpg?w=360&t=st=1690158835~exp=1690159435~hmac=405a08b86ec6772906db33bc47ab17cc64572fb7209dce71422486e459507ed1');
+            background-size: cover;
+        }
+
+        .btn-login {
+            font-size: 0.9rem;
+            letter-spacing: 0.05rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .btn-google {
+            color: white !important;
+            background-color: #ea4335;
+        }
+
+        .btn-facebook {
+            color: white !important;
+            background-color: #3b5998;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+                    <div class="card-img-left d-none d-md-flex">
+                        <!-- Background image for card set in CSS! -->
+                    </div>
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">Iniciar Sesion</h5>
+                        <h5 class="card-title text-center  fw-light fs-5">Administrador</h5>
+                        <form method="post" asp-action="Login" asp-controller="InicioAdmin">
+
+
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInputEmail" placeholder="Ingrese su email" required asp-for="Email">
+                                <label for="floatingInputEmail">Email</label>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Ingrese su contraseña" required asp-for="Constraseña">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-lg btn-facebook  btn-login fw-bold text-uppercase" type="submit">Iniciar Sesion</button>
+                                <label class="alert-danger">@ViewBag.Error</label>
+
+                            </div>
+                            <a class="d-block text-center mt-2 small" asp-controller="Administrativoes" asp-action="Create">No tienes cuenta? Registrate</a>
+
+                            <hr class="my-4">
+
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-lg btn-google btn-login fw-bold text-uppercase" type="submit">
+                                    <i class="fab fa-google me-2"></i> Iniciar con Google
+                                </button>
+                            </div>
+
+                            <div class="d-grid">
+                                <button class="btn btn-lg btn-facebook btn-login fw-bold text-uppercase" type="submit">
+                                    <i class="fab fa-facebook-f me-2"></i> Iniciar con Facebook
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    s
+    <!-- JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

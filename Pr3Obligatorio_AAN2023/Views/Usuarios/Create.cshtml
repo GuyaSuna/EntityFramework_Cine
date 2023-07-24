@@ -113,7 +113,7 @@
                             <!-- Background image for card set in CSS! -->
                         </div>
                         <div class="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+                            <h5 class="card-title text-center mb-5 fw-light fs-5">Registro Usuarios</h5>
                             <form method="post" asp-action="Create">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-floating mb-3">
@@ -131,7 +131,7 @@
                                     <label for="Telefono">Telefono</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="Email" placeholder="Ingrese su email" required asp-for="Email" asp-validation-for="Email">
+                                    <input type="email" class="form-control" id="Email" placeholder="Ingrese su email" required asp-for="Email" asp-validation-for="Email">
                                     <label for="Email">Email</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -139,7 +139,7 @@
                                     <label for="Contraseña">Contraseña</label>
                                 </div>
                                 <div class="d-grid mb-2">
-                                    <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit" value="Create">Register</button>
+                                    <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit" value="Create">Registrar</button>
                                     <label class="alert-danger">@ViewBag.Error</label>
                                 </div>
 

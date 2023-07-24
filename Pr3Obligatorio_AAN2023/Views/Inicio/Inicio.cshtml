@@ -81,26 +81,6 @@
     </style>
 </head>
 <body>
-@*    <!-- Contenedor del formulario de inicio de sesión -->
-    <div class="container mt-5 pt-5">
-        <div class="login-container">
-            <h2>Iniciar Sesión</h2>
-            <form method="post" asp-action="Login" asp-controller="Inicio">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="username" placeholder="Ingrese su email" required asp-for="Email">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required asp-for="Constraseña">
-                </div>
-                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                <label class="alert-danger">@ViewBag.Error</label>
-                <button type="submit" class="btn btn-primary" asp-controller="InicioAdmin" asp-action="InicioAdmin">Soy admin</button>
-            </form>
-        </div>
-    </div>*@
-    
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-xl-9 mx-auto">
