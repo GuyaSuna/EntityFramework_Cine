@@ -10830,10 +10830,15 @@ html {
     height: max-content;
     background: #141414;
 }
-
+main {
+    background: #141414;
+}
+portfolio {
+    background: #141414;
+}
 body {
     position: relative;
-    background: linear-gradient(to left, #3C4048, #3C40);
+    background: #141414;
 }
 
 p {

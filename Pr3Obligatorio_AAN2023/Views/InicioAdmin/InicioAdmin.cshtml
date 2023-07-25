@@ -62,20 +62,20 @@
                     <div class="card-body p-4 p-sm-5">
                         <h5 class="card-title text-center mb-5 fw-light fs-5">Iniciar Sesion</h5>
                         <h5 class="card-title text-center  fw-light fs-5">Administrador</h5>
-                        <form method="post" asp-action="InicioAdmin" asp-controller="InicioAdmin">
+                        <form method="post" asp-action="Login" asp-controller="InicioAdmin">
 
 
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInputEmail" placeholder="Ingrese su email" required asp-for="Email">
-                                <label for="floatingInputEmail">Email</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ingrese su email" required asp-for="Email">
+                                <label for="exampleInputEmail1">Email</label>
                             </div>
                             <hr>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="floatingPassword" placeholder="Ingrese su contraseña" required asp-for="Constraseña">
-                                <label for="floatingPassword">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese su contraseña" required asp-for="Constraseña">
+                                <label for="exampleInputPassword1">Password</label>
                             </div>
                             <div class="d-grid mb-2">
-                                <button class="btn btn-lg btn-facebook  btn-login fw-bold text-uppercase" type="submit">Iniciar Sesion</button>
+                                <button class="btn btn-lg btn-primary  btn-login fw-bold text-uppercase" type="submit">Iniciar Sesion</button>
                                 <label class="alert-danger">@ViewBag.Error</label>
 
                             </div>

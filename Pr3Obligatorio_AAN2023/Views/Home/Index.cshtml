@@ -11,7 +11,7 @@
 <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
 <script src="~/js/Main.js"></script>
 
-<div id="carouselInicio" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselInicio" class="carousel slide " data-bs-ride="carousel">
     <ol class="carousel-indicators">
         <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
         <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -131,97 +131,12 @@
 	</div>
 </main>
 
-<section class="page-section bg-light" id="portfolio">
+<section class="page-section" id="portfolio">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">Peliculas</h2>
-            <h3 class="section-subheading text-muted">Aquí puedes encontrar las últimas tendencias</h3>
+            <h2 class="section-heading text-uppercase text-white">Peliculas</h2>
+            <h3 class="section-subheading text-muted text-white">Aquí puedes encontrar las últimas tendencias</h3>
         </div>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/peliculas/gatoconbotas.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">El Gato con Botas</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 2-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/barbi2.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Barbie</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 3-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/Flash.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Flash</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                <!-- Portfolio item 4-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/IndianaJones.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Indiana Jones</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                <!-- Portfolio item 5-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/MarioBross.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Mario Bross</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <!-- Portfolio item 6-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/Peliculas/Transformer.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Transformer</div>
-                    </div>
-                </div>
-            </div>
             @if (Model != null && Model.Count > 0)
             {
                 Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
@@ -236,7 +151,7 @@
 
                 foreach (var titulo in funcionesPorTitulo.Keys)
                 {
-                    <div class="col-lg-4 col-sm-6 mb-4">
+				<div class="col-lg-4 col-sm-6 mb-4 border-2 border-light rounded">
                         <div class="portfolio-item">
                             <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
                                 <div class="portfolio-hover">
@@ -253,7 +168,7 @@
                                 </select>
                                 @if (@ViewData["Usuario"] != null)
                                 {
-                                    <a class="btn btn-primary" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                    <a class="btn btn-dark" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
                                 }
                             </div>
                         </div>

@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+<div class="container border rounded p-3 m-5 bg-light">
+<h1>Administrativos</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -48,12 +48,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Constraseña)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NumeroTrabajador">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NumeroTrabajador">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NumeroTrabajador">Delete</a>
-            </td>
+                    <td>
+                        <button class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.NumeroTrabajador">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.NumeroTrabajador">Details</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.NumeroTrabajador">Delete</button>
+                    </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
