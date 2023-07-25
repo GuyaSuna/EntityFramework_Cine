@@ -37,6 +37,7 @@
     <p>
         <a asp-action="Create">Create New</a>
     </p>
+    @if(IsAdmin()){
     <table class="table">
         <thead>
             <tr>
@@ -51,15 +52,12 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Funcion)
-                </th>
-                @if (IsAdmin())
-                {
-                    <th>Actions</th>
-                }
+                </th>             
+                    <th>Actions</th>            
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Where(r => r.Usuario.Email == ValidacionReservas()))
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -74,22 +72,62 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Titulo)
                     </td>
-                    @if (IsAdmin())
-                    {
+                   
                         <td>
                             <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</a>
                             <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
-                    }
-                    else
-                    {
+              
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Asiento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Precio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Funcion)
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(r => r.Usuario.Email == ValidacionReservas()))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Asiento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Usuario.Apellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Titulo)
+                        </td>
+
                         <td>
                             <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>

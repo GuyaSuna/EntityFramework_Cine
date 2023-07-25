@@ -55,13 +55,13 @@
                         @Html.DisplayFor(modelItem => item.Clasificacion)
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                        <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</button>
+                        <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</a>
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
+                        <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

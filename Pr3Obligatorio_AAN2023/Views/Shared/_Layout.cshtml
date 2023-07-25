@@ -80,6 +80,9 @@
                     }
                     @if (UserOrAdminLoggedIn() == "Usuario")
                     {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                            </li>
                         <li class="nav-item">
                             <form method="post" asp-controller="Home" asp-action="Logout" asp-antiforgery="true">
                                 <button type="submit" class="btn btn-danger">Logout</button>
@@ -103,6 +106,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Administrativoes" asp-action="Index">Admin</a>
                         </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                            </li>
                         <li class="nav-item">
                             <form method="post" asp-controller="Home" asp-action="Logout" asp-antiforgery="true">
                                 <button type="submit" class="btn btn-danger ms-1">Logout</button>
