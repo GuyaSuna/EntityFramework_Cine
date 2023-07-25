@@ -1,8 +1,188 @@
-﻿@{
+﻿@model List<Funcion>
+@{
     ViewData["Title"] = "Home Page";
 }
+@{
+	var mensajeError = TempData["mensajeError"] as string;
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link href="~/css/styles.css" rel="stylesheet" />
+<link href="~/css/StyleHome.css" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+<script src="~/js/Main.js"></script>
+
+<div id="carouselInicio" class="carousel slide " data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+			<img src="https://movieprodportalstoweb.blob.core.windows.net/sitebanners/C:%5Cfakepath%5CMovie-D100-cabezalweb (1).jpg" class="d-block w-100 h-auto carousel-image" alt="Slide 1">
+        </div>
+        <div class="carousel-item">
+			<img src="https://movieprodportalstoweb.blob.core.windows.net/sitebanners/C:%5Cfakepath%5Coppenheimer-2905060.webp" class="d-block w-100 h-auto carousel-image" alt="Slide 2">
+        </div>
+        <div class="carousel-item">
+			<img src="https://movieprodportalstoweb.blob.core.windows.net/sitebanners/C:%5Cfakepath%5CMovie-packTransformers23-cabezalweb.jpg" class="d-block w-100 h-auto carousel-image" alt="Slide 3">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
 </div>
+<main>
+@*	<div class="pelicula-principal">
+		<div class="contenedor">
+			<h3 class="titulo">Interestellar</h3>
+			<p class="descripcion">
+				Narra las aventuras de un grupo de exploradores que hacen uso de un agujero de gusano recientemente descubierto para superar las limitaciones de los viajes espaciales tripulados y vencer las inmensas distancias que tiene un viaje interestelar.
+			</p>
+			<button role="button" class="boton"><i class="fas fa-play"></i>Reproducir</button>
+			<button role="button" class="boton"><i class="fas fa-info-circle"></i>Más información</button>
+		</div>
+	</div>*@
+
+	<div class="peliculas-recomendadas contenedor">
+		<div class="contenedor-titulo-controles">
+			<h3>Películas Recomendadas</h3>
+			<div class="indicadores"></div>
+		</div>
+
+		<div class="contenedor-principal">
+			<button role="button" id="flecha-izquierda" class="flecha-izquierda"><i class="fas fa-angle-left"></i></button>
+
+			<div class="contenedor-carousel">
+				<div class="carousel">
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/barbi2.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Flash.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/gatoconbotas.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/IndianaJones.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/MarioBross.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/RapidosyFurioso.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Transformer.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/barbi2.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Flash.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/gatoconbotas.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/IndianaJones.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/MarioBross.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/RapidosyFurioso.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Transformer.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/barbi2.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Flash.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/gatoconbotas.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/IndianaJones.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/MarioBross.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/RapidosyFurioso.jpg" alt=""></a>
+					</div>
+					<div class="pelicula">
+						<a href="#"><img src="~/assets/img/Peliculas/Transformer.jpg" alt=""></a>
+					</div>
+				</div>
+			</div>
+
+			<button role="button" id="flecha-derecha" class="flecha-derecha"><i class="fas fa-angle-right"></i></button>
+		</div>
+	</div>
+</main>
+
+<section class="page-section" id="portfolio">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase text-white">Peliculas</h2>
+            <h3 class="section-subheading text-muted text-white">Aquí puedes encontrar las últimas tendencias</h3>
+        </div>
+            @if (Model != null && Model.Count > 0)
+            {
+                Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>> funcionesPorTitulo = new Dictionary<string, List<Pr3Obligatorio_AAN2023.Models.Funcion>>();
+                foreach (var funcion in Model)
+                {
+                    if (!funcionesPorTitulo.ContainsKey(funcion.Pelicula.Titulo))
+                    {
+                        funcionesPorTitulo[funcion.Pelicula.Titulo] = new List<Pr3Obligatorio_AAN2023.Models.Funcion>();
+                    }
+                    funcionesPorTitulo[funcion.Pelicula.Titulo].Add(funcion);
+                }
+
+                foreach (var titulo in funcionesPorTitulo.Keys)
+                {
+				<div class="col-lg-4 col-sm-6 mb-4 border-2 border-light rounded">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="@funcionesPorTitulo[titulo][0].Pelicula.Cartelera" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <select class="form-select" name="funciones" id="funciones">
+                                    @foreach (var funcion in funcionesPorTitulo[titulo])
+                                    {
+                                        <option value="@funcion.Id">@funcion.Fecha - @funcion.Horario - Sala Nr°@funcion.Sala.NroSala</option>
+                                    }
+                                </select>
+                                @if (@ViewData["Usuario"] != null)
+                                {
+                                    <a class="btn btn-dark" href="@Url.Action("Create", "Reservas", new { funcionId = funcionesPorTitulo[titulo][0].Id })">Reservar</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+	<div class="container">
+		<div class="alert alert-danger" role="alert">
+			@mensajeError
+		</div>
+	</div>
+}

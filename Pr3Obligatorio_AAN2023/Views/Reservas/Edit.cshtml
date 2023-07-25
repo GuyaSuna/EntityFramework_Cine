@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<div class="container border rounded p-3 m-5 bg-light">
 <h1>Edit</h1>
 
 <h4>Reserva</h4>
@@ -24,7 +24,8 @@
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                    <button type="submit" class="btn btn-primary">Save</button>
+
             </div>
         </form>
     </div>
@@ -33,7 +34,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

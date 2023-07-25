@@ -9,9 +9,9 @@ namespace Pr3Obligatorio_AAN2023.Models
         [Key]
         public int Id { get; set; }
 
-        public Funcion? Funcion { get; set; }
+        public Funcion Funcion { get; set; }
 
-        public Usuario? Usuario { get; set; }
+        public Usuario Usuario { get; set; }
 
         public int Asiento { get; set; }    
 

@@ -1,0 +1,31 @@
+﻿@model List<Pelicula>
+<link href="~/css/styles.css" rel="stylesheet" />
+<h2>Resultados de la búsqueda</h2>
+
+@if (Model.Count > 0)
+{
+    <ul>
+        @foreach (var item in Model)
+        {
+
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@item.Cartelera" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Titulo</h5>
+                            <h5 class="card-title">@item.Clasificacion</h5>
+                            <p class="card-text">@item.Sinopsis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </ul>
+}
+else
+{
+   <p>No se encontraron resultados</p>
+}
