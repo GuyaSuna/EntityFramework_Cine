@@ -19,6 +19,10 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             _context = context;
         }
 
+        public IActionResult Cartelera()
+        {
+            return View(Cartelera);
+        }
         // GET: Peliculas
         public async Task<IActionResult> Index()
         {
