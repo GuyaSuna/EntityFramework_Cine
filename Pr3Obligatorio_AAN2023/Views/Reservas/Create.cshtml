@@ -24,9 +24,7 @@
             <input asp-for="Funcion" value="@ViewData["FuncionId"]" type="hidden" />
 
             <div class="form-group">
-                <label asp-for="Usuario" class="control-label">Usuario</label>
-                <input asp-for="Usuario" value="@ViewData["Usuario"]" class="form-control" type="number" min="1" />
-                <span asp-validation-for="Usuario" class="text-danger"></span>
+                <input asp-for="Usuario" value="@ViewData["Usuario"]"  type="hidden" min="1" />
             </div>
             <div class="form-group">
                 <label asp-for="Asiento" class="control-label">Asiento</label>

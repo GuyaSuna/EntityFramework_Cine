@@ -114,7 +114,7 @@
                     </div>
                     <div class="card-body p-4 p-sm-5">
                         <h5 class="card-title text-center mb-5 fw-light fs-5">Registro Admin</h5>
-                        <form method="post" asp-action="Create">
+                        <form method="post" asp-controller="Administrativoes" asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="Nombre" placeholder="Ingrese su Nombre" required asp-for="Nombre" asp-validation-for="Nombre">

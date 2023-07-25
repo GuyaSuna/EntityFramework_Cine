@@ -116,11 +116,7 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Reserva reserva)
         {
-            if (!ModelState.IsValid)
-            {
-                // Si el modelo no es válido, volvemos a mostrar el formulario con los errores
-                return View(reserva);
-            }
+
 
             var funcionId = int.Parse(Request.Form["Funcion"]);
 
