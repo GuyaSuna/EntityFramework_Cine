@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home Page";
 }
 @{
-    var mensajeError = TempData["mensajeError"] as string;
+	var mensajeError = TempData["mensajeError"] as string;
 }
 
 <link href="~/css/styles.css" rel="stylesheet" />
@@ -178,3 +178,11 @@
         </div>
     </div>
 </section>
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+	<div class="container">
+		<div class="alert alert-danger" role="alert">
+			@mensajeError
+		</div>
+	</div>
+}

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Identity.Client;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
 
@@ -68,7 +69,9 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             {
                 // Si no se encontró la función con el Id proporcionado,
                 // muestra un mensaje de error o redirige a otra página
-                return RedirectToAction("Index", "Funciones");
+                TempData["mensajeError"] = "No quedan asientos suficientes";
+                return RedirectToAction("Index", "Home");
+               
             }
 
             // Obtener la cantidad total de asientos en la sala
@@ -84,8 +87,8 @@ namespace Pr3Obligatorio_AAN2023.Controllers
 
             if (cantidadAsientosDisponibles <= 0)
             {
-                TempData["mensajeError"] = "No quedan asientos suficientes para su reserva, intente con menos asientos";
-                return RedirectToAction("Index", "Funciones");
+                TempData["mensajeError"] = "No quedan asientos suficientes";
+                return RedirectToAction("Create", "Reservas");
             }
 
             if (Usuario != null)

@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Pr3Obligatorio_AAN2023.Datos;
 using Pr3Obligatorio_AAN2023.Models;
+using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Pr3Obligatorio_AAN2023.Controllers
 {
@@ -13,31 +15,33 @@ namespace Pr3Obligatorio_AAN2023.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
 
-        
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMemoryCache cache)
         {
             _logger = logger;
             _context = context;
             _cache = cache;
-            
         }
+
         public IActionResult Buscar(string searchString)
         {
             var resultados = _context.Peliculas.Where(e => e.Titulo.Contains(searchString)).ToList();
             return View(resultados);
         }
+
         public IActionResult Index()
         {
             var funciones = _context.Funciones.Include(f => f.Sala).Include(f => f.Pelicula).ToList();
             var Usuario = _cache.Get("Usuario") as Usuario;
-                if(Usuario != null)
+            if (Usuario != null)
             {
                 ViewData["Usuario"] = Usuario;
             }
 
+            // Filtrar las funciones por las fechas y horas válidas
+            funciones = FiltrarFuncionesPorFechaYHora(funciones);
+
             return View(funciones);
         }
-
 
         [HttpPost]
         public IActionResult Index(int peliculaId)
@@ -56,6 +60,20 @@ namespace Pr3Obligatorio_AAN2023.Controllers
             };
 
             return View(viewModel);
+        }
+
+        private static List<Funcion> FiltrarFuncionesPorFechaYHora(List<Funcion> funciones)
+        {
+            var fechaHoraActual = DateTime.Now;
+
+
+            funciones = funciones.Where(f => DateTime.Parse(f.Fecha) >= fechaHoraActual.Date).ToList();
+
+
+            funciones = funciones.Where(f => (DateTime.Parse(f.Fecha) > fechaHoraActual.Date) ||
+                                        (DateTime.Parse(f.Fecha) == fechaHoraActual.Date && TimeSpan.Parse(f.Horario) > fechaHoraActual.TimeOfDay)).ToList();
+
+            return funciones;
         }
 
         public IActionResult Privacy()
