@@ -4,6 +4,11 @@
     ViewData["Title"] = "Index";
 }
 <div class="container border rounded p-3 m-5 bg-light">
+    <style>
+        .max-width-td {
+            max-width: 200px;
+        }
+    </style>
     <h1>Peliculas</h1>
     <p>
         <a asp-action="Create">Create New</a>
@@ -48,7 +53,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Genero)
                     </td>
-                    <td>
+                    <td class="max-width-td">
                         @Html.DisplayFor(modelItem => item.Cartelera)
                     </td>
                     <td>

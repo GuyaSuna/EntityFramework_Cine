@@ -9,7 +9,7 @@
 <link href="~/css/styles.css" rel="stylesheet" />
 <link href="~/css/StyleHome.css" rel="stylesheet" />
 <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
-<script src="~/js/Main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 <div id="carouselInicio" class="carousel slide " data-bs-ride="carousel">
     <ol class="carousel-indicators">
@@ -36,6 +36,9 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </a>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
 </div>
 <main>
 @*	<div class="pelicula-principal">
@@ -129,6 +132,7 @@
 			<button role="button" id="flecha-derecha" class="flecha-derecha"><i class="fas fa-angle-right"></i></button>
 		</div>
 	</div>
+	<script src="~/js/Main.js"></script>
 </main>
 
 <section class="page-section" id="portfolio">
@@ -178,11 +182,3 @@
         </div>
     </div>
 </section>
-@if (!string.IsNullOrEmpty(mensajeError))
-{
-	<div class="container">
-		<div class="alert alert-danger" role="alert">
-			@mensajeError
-		</div>
-	</div>
-}
