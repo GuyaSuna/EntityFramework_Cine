@@ -49,13 +49,13 @@
                 @Html.DisplayFor(modelItem => item.Constraseña)
             </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.NumeroTrabajador">Edit</button>
+                        <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.NumeroTrabajador">Edit</a>
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.NumeroTrabajador">Details</button>
+                        <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.NumeroTrabajador">Details</a>
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.NumeroTrabajador">Delete</button>
+                        <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.NumeroTrabajador">Delete</a>
                     </td>
         </tr>
 }

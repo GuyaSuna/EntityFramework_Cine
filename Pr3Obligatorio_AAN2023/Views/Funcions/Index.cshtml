@@ -44,9 +44,9 @@
                     @Html.DisplayFor(modelItem => item.Sala.NroSala)
                 </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</button>
-                        <button class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</button>               
-                        <button class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
+                        <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</a>               
+                        <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
             </tr>
         }

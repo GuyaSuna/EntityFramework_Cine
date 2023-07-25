@@ -26,11 +26,9 @@
                 @Html.DisplayFor(modelItem => item.CantAsientos)
             </td>
                     <td>
-                        <button class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.NroSala">Edit</button>
-                    
-                        <button class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.NroSala">Details</button>
-                    
-                        <button class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.NroSala">Delete</button>
+                        <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.NroSala">Edit</a>
+                        <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.NroSala">Details</a>
+                        <a class="btn btn-outline-dark" asp-action="Delete" asp-route-id="@item.NroSala">Delete</a>
                     </td>
         </tr>
 }
