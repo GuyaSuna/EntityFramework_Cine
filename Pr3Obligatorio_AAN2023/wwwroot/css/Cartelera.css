@@ -272,3 +272,6 @@ body {
         display: none;
     }
 }
+encabezado {
+    background-image:  url('~/assets/imgcartelera/f-t-1.png');
+}
